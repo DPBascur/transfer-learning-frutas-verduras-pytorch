@@ -153,6 +153,23 @@ class Evaluator:
         print("Reporte de Clasificación Completo:")
         print("=" * 80)
         print(results['classification_report'])
+        
+        print(f"\nMétricas por Clase:")
+        class_names = Config.SELECTED_CLASSES
+        print(f"{'Clase':<15} {'Precision':>10} {'Recall':>10} {'F1-Score':>10} {'Support':>10}")
+        print("-" * 60)
+        
+        for i, class_name in enumerate(class_names):
+            print(f"{class_name:<15} "
+                  f"{results['precision_per_class'][i]:>10.4f} "
+                  f"{results['recall_per_class'][i]:>10.4f} "
+                  f"{results['f1_per_class'][i]:>10.4f} "
+                  f"{results['support_per_class'][i]:>10}")
+        
+        print("\n" + "=" * 80)
+        print("Reporte de Clasificación Completo:")
+        print("=" * 80)
+        print(results['classification_report'])
 
 
 def evaluate_model(model: nn.Module, 

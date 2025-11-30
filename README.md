@@ -15,10 +15,10 @@ El objetivo es comparar el desempeño de ambas variantes en la clasificación de
 
 ```
 transfer-learning-frutas-verduras-pytorch/
-├── src/
+├── src/                        # Código fuente modular
 │   ├── config/
 │   │   ├── __init__.py
-│   │   └── config.py           # Configuración centralizada del proyecto
+│   │   └── config.py           # Configuración centralizada
 │   ├── data/
 │   │   ├── __init__.py
 │   │   └── data_loader.py      # Carga de datos y transformaciones
@@ -35,18 +35,24 @@ transfer-learning-frutas-verduras-pytorch/
 │   │   └── metrics.py          # Métricas y visualizaciones
 │   └── utils/
 │       ├── __init__.py
-│       └── visualization.py    # Utilidades de visualización
+│       ├── visualization.py    # Utilidades de visualización
+│       ├── results_saver.py    # Guardado de resultados
+│       └── model_analysis.py   # Análisis de modelos
 ├── app/
-│   └── app.py                  # Aplicación Streamlit
+│   └── app.py                  # Aplicación Streamlit (interfaz web)
+├── scripts/                    # Scripts de línea de comandos
+│   ├── train.py                # Script de entrenamiento
+│   ├── evaluate.py             # Script de evaluación
+│   ├── compare.py              # Script de comparación
+│   └── quick_start.py          # Verificación de instalación
 ├── notebooks/
 │   └── transfer_learning_notebook.ipynb  # Notebook principal
-├── saved_models/               # Modelos entrenados
+├── profiles/                   # Imágenes de perfiles de autores
+├── saved_models/               # Modelos entrenados (no versionado)
 ├── Datos/                      # Dataset (no versionado)
 │   ├── train/
 │   ├── validation/
 │   └── test/
-├── train.py                    # Script de entrenamiento
-├── evaluate.py                 # Script de evaluación
 ├── requirements.txt            # Dependencias del proyecto
 ├── .gitignore
 └── README.md
@@ -116,18 +122,57 @@ pip install -r requirements.txt
 - matplotlib >= 3.7.0
 - seaborn >= 0.12.0
 
+### Inicio Rápido
+
+1. **Verificar instalación:**
+```bash
+python scripts/quick_start.py
+```
+
+2. **Entrenar modelos:**
+```bash
+# Versión Simple
+python scripts/train.py --variant simple --epochs 50
+
+# Versión Extendida
+python scripts/train.py --variant extended --epochs 50
+```
+
+3. **Usar la interfaz web (Recomendado):**
+```bash
+streamlit run app/app.py
+```
+
+4. **Usar el notebook:**
+```bash
+jupyter notebook notebooks/transfer_learning_notebook.ipynb
+```
+
 ## Uso
 
-### 1. Entrenamiento desde la Línea de Comandos
+### 1. Interfaz Web con Streamlit (Recomendado)
+
+```bash
+streamlit run app/app.py
+```
+
+La aplicación permite:
+- **Predicción**: Cargar imágenes desde archivo o cámara
+- **Entrenamiento**: Configurar y entrenar modelos interactivamente
+- **Evaluación**: Evaluar modelos guardados
+- **Comparación**: Comparar diferentes variantes
+- **Cancelación**: Detener entrenamiento en cualquier momento
+
+### 2. Entrenamiento desde la Línea de Comandos
 
 #### Entrenar Versión 1 (Simple)
 ```bash
-python train.py --variant simple --epochs 50 --batch-size 32 --lr 0.001
+python scripts/train.py --variant simple --epochs 50 --batch-size 32 --lr 0.001
 ```
 
 #### Entrenar Versión 2 (Extendido)
 ```bash
-python train.py --variant extended --epochs 50 --batch-size 32 --lr 0.001
+python scripts/train.py --variant extended --epochs 50 --batch-size 32 --lr 0.001
 ```
 
 #### Opciones Disponibles
@@ -138,13 +183,19 @@ python train.py --variant extended --epochs 50 --batch-size 32 --lr 0.001
 - `--device`: Dispositivo (`cuda` o `cpu`)
 - `--no-early-stopping`: Deshabilitar early stopping
 
-### 2. Evaluación de Modelos
+### 3. Evaluación de Modelos
 
 ```bash
-python evaluate.py --model-path saved_models/mobilenet_v3_simple_best.pth --variant simple --dataset test
+python scripts/evaluate.py --model-path saved_models/mobilenet_v3_simple_best.pth --variant simple --dataset test
 ```
 
-### 3. Uso del Notebook
+### 4. Comparación de Modelos
+
+```bash
+python scripts/compare.py --model-v1 saved_models/mobilenet_v3_simple_best.pth --model-v2 saved_models/mobilenet_v3_extended_best.pth
+```
+
+### 5. Uso del Notebook
 
 Abre el notebook en Jupyter:
 
@@ -157,18 +208,7 @@ El notebook incluye:
 - Entrenamiento de ambas variantes
 - Evaluación y comparación
 - Visualizaciones
-
-### 4. Interfaz Gráfica con Streamlit
-
-```bash
-streamlit run app/app.py
-```
-
-La aplicación permite:
-- Cargar imágenes desde archivo o cámara
-- Seleccionar variante del modelo
-- Visualizar predicciones con probabilidades
-- Interfaz intuitiva y responsive
+- Análisis de resultados
 
 ## Configuración
 
