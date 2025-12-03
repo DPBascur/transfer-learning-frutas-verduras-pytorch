@@ -12,7 +12,7 @@ class Config:
     
     # Rutas del proyecto
     BASE_DIR = Path(__file__).resolve().parent.parent.parent
-    DATA_DIR = BASE_DIR / 'Datos'
+    DATA_DIR = BASE_DIR / 'src' / 'data'
     TRAIN_DIR = DATA_DIR / 'train'
     VAL_DIR = DATA_DIR / 'validation'
     TEST_DIR = DATA_DIR / 'test'
